@@ -1,21 +1,125 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './styles/App.css';
+// react
+import React, { Component } from 'react'
+import { Route } from 'react-router-dom'
 
+// api
+import * as BooksAPI from './utils/BooksAPI'
+
+// components
+import Shelf from './components/Shelf'
+import Search from './components/Search'
+import Preview from './components/Preview'
+
+// styles
+import './styles/App.css'
+
+/**
+ * @description
+ */
 class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-      </div>
-    );
-  }
+    /**
+     *
+     * @type {{books: Array}}
+     */
+    state = {
+        books: [],
+        book: JSON.parse(localStorage.getItem('preview')) || []
+    }
+
+    /**
+     * @description sets the books state after the components are rendered
+     */
+    componentDidMount() {
+        BooksAPI.getAll().then(
+            (books) => {
+                this.setState({
+                    books: books.filter((book) => (
+                        book.shelf && book.shelf !== "none"
+                    ))
+                })
+            }
+        )
+    }
+
+    /**
+     * @description handles moving a book from one shelf to an other shelf
+     * @param book
+     * @param shelf
+     */
+    updateBookHandler = (book, shelf) => {
+        BooksAPI.update(book, shelf).then(() => {
+            // add shelf to book
+            book.shelf = shelf
+
+            // set state
+            this.setState((state) => ({
+                books: state.books.filter((b) => (
+                    b.id !== book.id
+                )).concat(shelf !== "none" ? [ book ]: [])
+            }))
+        })
+    }
+
+    /**
+     * @description passes the book information to the review component
+     * @param book
+     */
+    previewBookHandler = (book) => {
+        BooksAPI.get(book).then(res => {
+            this.setState({book: res}, () => localStorage.setItem('preview', JSON.stringify(res)))
+            console.log(this.state.book)
+        })
+    }
+
+    /**
+     * @description clear localStorage when navigating aways from preview
+     */
+    clearStorageHandler = () => {
+        localStorage.clear()
+    }
+
+    /**
+     * @description clear the book state
+     */
+    clearStateHandler = () => {
+        this.setState({book: []})
+    }
+
+    /**
+     * @description renders the app and handles routing
+     * @returns {*}
+     */
+    render() {
+        return (
+            <div className="app">
+                <Route exact path="/" render={() => (
+                    <Shelf
+                        books={this.state.books}
+                        onUpdateBook={this.updateBookHandler}
+                        preview={this.previewBookHandler}
+                    />
+                )}/>
+
+                <Route path="/search" render={() => (
+                    <Search
+                        books={this.state.books}
+                        onUpdateBook={this.updateBookHandler}
+                        preview={this.previewBookHandler}
+                    />
+                )}/>
+
+                <Route path="/preview" render={() => (
+                    <Preview
+                        book={this.state.book}
+                        onUpdateBook={this.updateBookHandler}
+                        clearStorage={this.clearStorageHandler}
+                        clearState={this.clearStateHandler}
+                    />
+                )} />
+            </div>
+
+        )
+    }
 }
 
-export default App;
+export default App
