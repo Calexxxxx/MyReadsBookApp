@@ -1,3 +1,7 @@
+:root {
+    --primary: #3d5863
+}
+
 html, body, .root {
   height: 100%;
 }
@@ -8,12 +12,25 @@ body, .app {
   background: white;
 }
 
+a {
+    text-decoration: none;
+}
 /* main page */
+.list-books {
+  margin-top: 85px;
+}
 
 .list-books-title {
-  padding: 10px 0;
-  background: #2e7c31;
-  text-align: center;
+  position: fixed;
+  padding: 10px;
+  background: var(--primary);
+  display: grid;
+  grid-template-columns: 89% 10%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  right: 0;
 }
 .list-books-title h1 {
   font-weight: 400;
@@ -43,22 +60,11 @@ body, .app {
   text-align: center;
 }
 
-.open-search {
-  position: fixed;
-  right: 25px;
-  bottom: 25px;
-}
 .open-search a {
   display: block;
   width: 50px;
   height: 50px;
-  border-radius: 50%;
-  background: #2e7d32;
   background-image: url('../icons/add.svg');
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: 28px;
-  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
   font-size: 0;
 }
 
@@ -109,18 +115,17 @@ body, .app {
   list-style-type: none;
   padding: 0;
   margin: 0;
-
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
+  display: grid;
 }
 .books-grid li {
   padding: 10px 15px;
   text-align: left;
+    width: 100%;
 }
 
 .book {
-  width: 140px;
+  width: 300px;
+    margin: auto;
 }
 .book-title,
 .book-authors {
@@ -140,14 +145,18 @@ body, .app {
   align-items: flex-end;
 }
 
+.book-top a {
+    margin: auto;
+}
+
 .book-shelf-changer {
   position: absolute;
-  right: 0;
+  left: 0;
   bottom: -10px;
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: #60ac5d;
+  background: var(--primary);
   background-image: url('../icons/arrow-drop-down.svg');
   background-repeat: no-repeat;
   background-position: center;
@@ -171,4 +180,78 @@ body, .app {
   padding: 20px 10px 0;
   text-align: center;
   font-size: 0.8em;
+}
+
+/*==================== book review ===================*/
+
+.book-review {
+  width: 100%;
+}
+
+.book-review-inner {
+  width: 90%;
+  margin: auto;
+  margin-top: 110px;
+    margin-bottom: 85px;
+}
+
+.book-review-cover {
+  background-size: cover;
+  margin: auto;
+}
+
+.book-review-close {
+  background-color: var(--primary);
+  color: #fff;
+}
+
+.book-review-title {
+  margin: .5em auto;
+}
+
+.book-review-sub {
+  color: rgba(153, 153, 153, 0.73);
+}
+
+.book-review-info {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.book-review-info li {
+    font-size: .8em;
+}
+
+.book-review-author,
+.book-review-cat {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.book-review-changer {
+    left: 38px;
+    top: 93px;
+}
+
+.preview-button {
+    background-color: var(--primary);
+    color: #fff;
+    display: block;
+    width: 100%;
+    font-size: 1.2em;
+    border: none;
+    padding: .5em;
+}
+
+
+@media (min-width: 768px) {
+    .books-grid {
+        grid-template-columns: repeat(2, 1fr);
+        max-width: 1024px;
+        margin: auto;
+    }
 }
