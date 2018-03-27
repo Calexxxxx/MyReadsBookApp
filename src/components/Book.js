@@ -49,7 +49,6 @@ const Book = (props) => {
                     <select value={shelf || "none"} onChange={(event) => {
                         onUpdateBook(book, event.target.value)
                     }}>
-                        <option value="none" disabled>Move to...</option>
                         {shelfs.map((shelf, index) => <option value={shelf} key={index}>{shelf}</option>)}
                     </select>
                 </div>
