@@ -134,6 +134,22 @@ a {
 .book-title {
   margin-top: 10px;
 }
+
+.book-title-label {
+  font-size: 1em;
+  position: relative;
+  top: 49px;
+  padding: 0 .3em 0 .3em;
+  right: -28px;
+  display: block;
+  width: 100%;
+  text-align: center;
+  background-color: #3d5863;
+  color: #fff;
+  transform: rotate(45deg);
+  box-shadow: 0 12px 46px grey;
+}
+
 .book-authors {
   color: #999;
 }

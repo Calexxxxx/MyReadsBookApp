@@ -34,6 +34,9 @@ const Book = (props) => {
         <div className="book" id={id} key={id}>
             <div className="book-top">
                 <Link to="/preview">
+                    {shelf === 'currentlyReading' ? <span className="book-title-label"> Currently Reading</span> : null }
+                    {shelf === 'wantToRead' ? <span className="book-title-label"> Want to Read</span> : null }
+                    {shelf === 'read' ? <span className="book-title-label"> Read</span> : null }
                     <div
                         className="book-cover"
                         onClick={() => {
@@ -54,7 +57,9 @@ const Book = (props) => {
                 </div>
             </div>
             <div className="book-title">
-                <h2>{title}</h2>
+                <h2>
+                    {title}
+                </h2>
             </div>
             <div className="book-authors">{authors}</div>
             <Link to="/preview">
